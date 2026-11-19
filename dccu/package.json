@@ -1,0 +1,11 @@
+{
+  "name": "dccu",
+  "private": true,
+  "type": "commonjs",
+  "description": "DCCU — a fan-made DC connected universe slate with generative art and a rendered unveiling video.",
+  "scripts": {
+    "build": "node tools/build.js",
+    "render": "node tools/render.js",
+    "score": "python3 tools/score.py"
+  }
+}

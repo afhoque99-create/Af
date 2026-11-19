@@ -1,0 +1,346 @@
+<title>DCCU Unveiling</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/*@FONTS*/
+/* Layout: a premiere programme. The film is the hero; three timeline views and a source library follow. Deliberately dark-only, like a theatre. */
+:root {
+  color-scheme: dark;
+  --ink: #0b0a08; --ink-2: #14120e; --ink-3: #1d1a14;
+  --line: rgba(244, 234, 210, 0.12); --line-2: rgba(244, 234, 210, 0.24);
+  --text: #f4ead2; --muted: #b8ae9a; --faint: #847b6b;
+  --gold: #f2b632; --gold-2: #ffd47a; --shadow: rgba(0, 0, 0, 0.6);
+  --lf: #F2B632; --ls: #E5484D; --af: #9D7CFF; --as: #2BC4B4; --vg: #4C9AFF;
+  --era-P: #d9a066; --era-C: #9bb7d4; --era-N: #c4d36f; --era-R: #e8a0bf; --era-M: #8fdcc8;
+  --display: "Big Shoulders Display", "Arial Narrow", sans-serif;
+  --serif: Cinzel, Georgia, serif;
+  --sans: Archivo, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+* { box-sizing: border-box; }
+html { scroll-padding-top: calc(64px + env(safe-area-inset-top, 0px)); }
+body { margin: 0; background: var(--ink); color: var(--text); font: 400 16px/1.55 var(--sans); -webkit-font-smoothing: antialiased; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--ink); }
+a { color: var(--gold-2); }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.wrap { max-width: 1240px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.eyebrow { font: 600 13px/1.3 var(--serif); letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin: 0; }
+h1, h2, h3 { text-wrap: balance; }
+
+/* header */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: rgba(11, 10, 8, 0.86); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.top .wrap { display: flex; align-items: center; gap: 24px; height: 56px; }
+.brand { font: 800 26px/1 var(--display); letter-spacing: 0.14em; color: var(--text); text-decoration: none; }
+.top nav { display: flex; gap: 20px; flex: 1; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+.top nav a { color: var(--muted); text-decoration: none; font: 600 13px/1 var(--sans); letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; padding: 6px 0; }
+.top nav a:hover { color: var(--text); }
+.fan { font: 600 11px/1 var(--sans); letter-spacing: 0.12em; text-transform: uppercase; color: var(--faint); border: 1px solid var(--line-2); border-radius: 999px; padding: 6px 10px; white-space: nowrap; }
+
+/* hero */
+.hero { padding-block: 44px 28px; }
+.hero-copy { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 32px 48px; align-items: end; margin-bottom: 28px; }
+.hero h1 { font: 800 clamp(46px, 7.4vw, 104px)/0.9 var(--display); text-transform: uppercase; letter-spacing: 0.01em; margin: 12px 0 0; }
+.hero h1 .gold { color: var(--gold); }
+.nw { white-space: nowrap; }
+.lede { color: var(--muted); font-size: 17px; max-width: 58ch; margin: 0 0 16px; }
+.stats { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px 26px; }
+.stats li { display: flex; flex-direction: column; }
+.stats b { font: 800 34px/1 var(--display); font-variant-numeric: tabular-nums; }
+.stats span { font: 600 11px/1.3 var(--sans); letter-spacing: 0.12em; text-transform: uppercase; color: var(--faint); }
+
+.stage { position: relative; background: #000; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; box-shadow: 0 30px 80px -30px rgba(242, 182, 50, 0.25); }
+.stage canvas { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; max-width: 100%; background: #000; cursor: pointer; }
+.bigplay { position: absolute; left: 50%; top: calc((100% - 57px) * 0.79); transform: translate(-50%, -50%); display: inline-flex; align-items: center; gap: 12px; padding: 14px 22px 14px 16px; border-radius: 999px; border: 1px solid rgba(255, 212, 122, 0.6); background: rgba(11, 10, 8, 0.72); color: var(--text); font: 600 14px/1 var(--sans); letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; backdrop-filter: blur(6px); white-space: nowrap; }
+.bigplay .short { display: none; }
+.bigplay svg { width: 30px; height: 30px; }
+.bigplay:hover { background: rgba(242, 182, 50, 0.22); }
+.stage[data-started] .bigplay { display: none; }
+.controls { display: flex; align-items: center; gap: 14px; padding: 10px 14px; background: var(--ink-2); border-top: 1px solid var(--line); }
+.ctl { display: inline-grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line-2); background: transparent; cursor: pointer; flex: none; }
+.ctl:hover { border-color: var(--gold); }
+.ctl svg { width: 18px; height: 18px; fill: currentColor; }
+#play .i-pause, #play[data-state="playing"] .i-play { display: none; }
+#play[data-state="playing"] .i-pause { display: block; }
+#mute .i-off, #mute[aria-pressed="true"] .i-on { display: none; }
+#mute[aria-pressed="true"] .i-off { display: block; }
+#time { font: 600 13px/1 var(--sans); font-variant-numeric: tabular-nums; color: var(--muted); min-width: 92px; }
+.scrubwrap { position: relative; flex: 1; min-width: 60px; display: flex; align-items: center; }
+#scrub { width: 100%; -webkit-appearance: none; appearance: none; background: transparent; height: 28px; margin: 0; cursor: pointer; }
+#scrub::-webkit-slider-runnable-track { height: 4px; background: var(--line-2); border-radius: 2px; }
+#scrub::-moz-range-track { height: 4px; background: var(--line-2); border-radius: 2px; }
+#scrub::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: var(--gold); margin-top: -5px; border: 0; }
+#scrub::-moz-range-thumb { width: 14px; height: 14px; border-radius: 50%; background: var(--gold); border: 0; }
+.mark { position: absolute; top: 50%; width: 2px; height: 12px; background: var(--cc); transform: translate(-50%, -50%); pointer-events: none; border-radius: 1px; }
+.chapjump { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.jump { display: inline-flex; align-items: baseline; gap: 8px; border: 1px solid var(--line-2); background: transparent; border-radius: 999px; padding: 7px 14px; cursor: pointer; font: 600 13px/1 var(--sans); color: var(--muted); }
+.jump b { font: 600 11px/1 var(--serif); letter-spacing: 0.14em; text-transform: uppercase; color: var(--cc); }
+.jump:hover { color: var(--text); border-color: var(--cc); }
+.note { color: var(--faint); font-size: 14px; margin: 12px 0 0; }
+
+/* section heads */
+.sec { padding-block: 56px 24px; border-top: 1px solid var(--line); }
+.sechead { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px 48px; align-items: end; margin-bottom: 26px; }
+.sechead h2 { font: 800 clamp(40px, 5.4vw, 68px)/0.92 var(--display); text-transform: uppercase; margin: 10px 0 0; }
+.sechead p:not(.eyebrow) { color: var(--muted); margin: 0; max-width: 60ch; }
+
+/* toolbar */
+.toolbar { display: flex; flex-wrap: wrap; gap: 14px 24px; align-items: center; justify-content: space-between; margin-bottom: 26px; position: sticky; top: calc(56px + env(safe-area-inset-top, 0px)); z-index: 4; background: var(--ink); padding-block: 12px; border-bottom: 1px solid var(--line); }
+.tabs { display: inline-flex; border: 1px solid var(--line-2); border-radius: 999px; padding: 4px; gap: 2px; flex-wrap: wrap; }
+.tab { border: 0; background: transparent; padding: 9px 16px; border-radius: 999px; cursor: pointer; font: 600 13px/1 var(--sans); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); display: inline-flex; gap: 8px; align-items: baseline; }
+.tab b { font: 800 15px/1 var(--display); color: var(--faint); }
+.tab[aria-selected="true"] { background: var(--text); color: var(--ink); }
+.tab[aria-selected="true"] b { color: var(--ink); }
+.mfilter { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.chip-m, .chip-e, .seg, #allmedia { border: 1px solid var(--line-2); background: transparent; border-radius: 999px; padding: 7px 12px; cursor: pointer; font: 600 12px/1 var(--sans); color: var(--faint); display: inline-flex; align-items: center; gap: 7px; }
+.chip-m i { width: 8px; height: 8px; border-radius: 50%; background: var(--c); opacity: 0.35; }
+.chip-m[aria-pressed="true"] { color: var(--text); border-color: var(--c); }
+.chip-m[aria-pressed="true"] i { opacity: 1; }
+#allmedia { border-style: dashed; }
+#count { font: 600 12px/1 var(--sans); color: var(--faint); font-variant-numeric: tabular-nums; }
+
+/* cards */
+.card { background: none; border: 0; padding: 0; text-align: left; cursor: pointer; display: flex; flex-direction: column; gap: 9px; min-width: 0; }
+.thumb { display: block; aspect-ratio: 2 / 3; max-width: 100%; border-radius: 4px; overflow: hidden; background: linear-gradient(160deg, var(--ink-3), var(--ink-2)); box-shadow: 0 0 0 1px var(--line); transition: transform 0.25s ease, box-shadow 0.25s ease; }
+.thumb img { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.4s ease; }
+.thumb img.ready { opacity: 1; }
+.card:hover .thumb { transform: translateY(-3px); box-shadow: 0 0 0 1px var(--line-2), 0 18px 36px -14px var(--shadow); }
+.meta { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.mtag { display: inline-flex; align-items: center; gap: 6px; font: 600 10.5px/1.2 var(--sans); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.mtag i { width: 7px; height: 7px; border-radius: 50%; background: var(--c); flex: none; }
+.ctitle { font: 800 20px/1 var(--display); text-transform: uppercase; letter-spacing: 0.01em; overflow-wrap: anywhere; }
+.cdate { font: 600 12px/1.3 var(--sans); color: var(--faint); font-variant-numeric: tabular-nums; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 26px 16px; }
+
+/* release view */
+.chapter { padding-block: 10px 40px; }
+.chead { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 4px 40px; align-items: end; padding-top: 18px; margin-bottom: 22px; border-top: 2px solid var(--cc); }
+.cnum { font: 600 13px/1 var(--serif); letter-spacing: 0.2em; text-transform: uppercase; color: var(--cc); grid-column: 1; }
+.chead h3 { font: 800 clamp(34px, 4.4vw, 54px)/0.95 var(--display); text-transform: uppercase; margin: 6px 0 0; grid-column: 1; }
+.cyears { font: 600 13px/1.3 var(--sans); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); grid-column: 2; grid-row: 1; }
+.ctag { grid-column: 2; grid-row: 2; margin: 0; color: var(--muted); font-style: italic; max-width: 52ch; }
+
+/* chronology view */
+.band { padding-bottom: 30px; }
+.bhead { font: 800 30px/1 var(--display); text-transform: uppercase; margin: 0 0 6px; padding-top: 16px; border-top: 2px solid var(--gold); display: flex; justify-content: space-between; }
+.chronlist { list-style: none; margin: 0; padding: 0; }
+.chronlist li { display: grid; grid-template-columns: 210px minmax(0, 1fr); gap: 18px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.when { font: 600 13px/1.3 var(--sans); letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold-2); }
+.card.row { flex-direction: row; align-items: center; gap: 16px; }
+.card.row .thumb { width: 64px; flex: none; }
+.card.row .ctitle { font-size: 24px; }
+
+/* medium view */
+.lane { margin-bottom: 30px; }
+.lhead { display: flex; align-items: center; gap: 10px; font: 800 28px/1 var(--display); text-transform: uppercase; margin: 0 0 14px; }
+.lhead i { width: 12px; height: 12px; border-radius: 50%; background: var(--c); }
+.lhead span { font: 600 12px/1 var(--sans); letter-spacing: 0.1em; color: var(--faint); margin-left: 4px; }
+.lane-scroll { overflow-x: auto; padding-bottom: 12px; scroll-snap-type: x proximity; border-top: 1px solid var(--c); }
+.lane-track { list-style: none; margin: 0; padding: 14px 0 0; display: flex; gap: 16px; }
+.lane-track li { flex: 0 0 136px; scroll-snap-align: start; display: flex; flex-direction: column; gap: 8px; }
+.lyear { font: 800 16px/1 var(--display); color: var(--c); }
+.card.small .ctitle { font-size: 17px; }
+
+/* dossier */
+dialog { width: min(1000px, calc(100% - 24px)); max-height: calc(100% - 24px); padding: 0; border: 1px solid var(--line-2); border-radius: 8px; background: var(--ink-2); color: var(--text); box-shadow: 0 40px 120px -20px #000; overflow: hidden; }
+dialog::backdrop { background: rgba(0, 0, 0, 0.74); backdrop-filter: blur(4px); }
+#dossier-close { position: absolute; top: 12px; right: 12px; z-index: 2; border: 1px solid var(--line-2); background: rgba(11, 10, 8, 0.8); border-radius: 999px; padding: 8px 14px; cursor: pointer; font: 600 12px/1 var(--sans); letter-spacing: 0.1em; text-transform: uppercase; }
+#dossier-body { display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: 32px; padding: 28px; max-height: calc(100dvh - 26px); overflow-y: auto; }
+.d-poster img { width: 100%; height: auto; aspect-ratio: 2 / 3; border-radius: 4px; display: block; background: var(--ink-3); position: sticky; top: 0; }
+.d-eyebrow { font: 600 12px/1.3 var(--serif); letter-spacing: 0.18em; text-transform: uppercase; padding-right: 80px; }
+.d-info h2 { font: 800 clamp(36px, 5vw, 58px)/0.92 var(--display); text-transform: uppercase; margin: 10px 0 12px; }
+.d-tags { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+.d-date { font: 600 13px/1 var(--sans); color: var(--muted); }
+.d-log { font-size: 19px; font-style: italic; color: var(--text); margin: 18px 0; max-width: 56ch; }
+.d-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 0 0 8px; padding: 14px 0; border-block: 1px solid var(--line); }
+.d-facts dt { font: 600 10.5px/1.2 var(--sans); letter-spacing: 0.12em; text-transform: uppercase; color: var(--faint); }
+.d-facts dd { margin: 4px 0 0; font-size: 14px; font-variant-numeric: tabular-nums; }
+.d-info h4 { font: 600 11px/1 var(--sans); letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin: 22px 0 8px; }
+.d-plot { margin: 0; color: var(--text); max-width: 64ch; }
+.d-cast { display: flex; flex-wrap: wrap; gap: 6px; }
+.castchip, .pchip { border: 1px solid var(--line-2); background: rgba(244, 234, 210, 0.04); border-radius: 999px; padding: 6px 11px; cursor: pointer; font: 600 12.5px/1.1 var(--sans); }
+.castchip:hover, .pchip:hover { border-color: var(--gold); color: var(--gold-2); }
+.d-src { margin: 0; padding-left: 18px; color: var(--muted); }
+.d-nav { display: flex; justify-content: space-between; gap: 12px; margin-top: 26px; padding-top: 16px; border-top: 1px solid var(--line); }
+.navbtn { border: 1px solid var(--line-2); background: transparent; border-radius: 6px; padding: 10px 14px; cursor: pointer; font: 600 13px/1.25 var(--sans); max-width: 48%; text-align: left; }
+.navbtn:last-child { text-align: right; }
+.navbtn:disabled { opacity: 0.4; cursor: default; }
+
+/* library */
+.libtools { display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; margin-bottom: 24px; }
+.search { flex: 1 1 260px; min-width: 0; display: flex; }
+#libsearch { width: 100%; background: var(--ink-2); border: 1px solid var(--line-2); border-radius: 6px; color: var(--text); padding: 11px 14px; font: 400 15px var(--sans); }
+#libsearch::placeholder { color: var(--faint); }
+.segs, .eras { display: flex; flex-wrap: wrap; gap: 6px; }
+.seg[aria-pressed="true"] { background: var(--text); color: var(--ink); border-color: var(--text); }
+.chip-e[aria-pressed="true"] { color: var(--text); border-color: var(--ec); }
+.chip-e i { width: 8px; height: 8px; border-radius: 2px; background: var(--ec); }
+.chip-e[aria-pressed="false"] i { opacity: 0.3; }
+.toggle { display: inline-flex; gap: 8px; align-items: center; font: 600 13px var(--sans); color: var(--muted); cursor: pointer; }
+.toggle input { accent-color: var(--gold); width: 16px; height: 16px; }
+#libcount { font: 600 12px var(--sans); color: var(--faint); font-variant-numeric: tabular-nums; }
+.libgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr)); gap: 16px; align-items: start; }
+.lib { background: var(--ink-2); border: 1px solid var(--line); border-radius: 6px; padding: 16px 16px 14px; margin: 0; min-width: 0; transition: border-color 0.6s; }
+.lib.flash { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(242, 182, 50, 0.25); }
+.lib header { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; margin-bottom: 10px; }
+.lib h3 { font: 800 23px/1 var(--display); text-transform: uppercase; margin: 0; min-width: 0; overflow-wrap: anywhere; }
+.lgroup { font: 600 10px/1.2 var(--sans); letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint); text-align: right; flex: none; max-width: 40%; }
+.lnote { font-size: 14px; color: var(--muted); margin: 0 0 10px; font-style: italic; }
+.picks { list-style: none; margin: 0; padding: 0; }
+.picks li { display: grid; grid-template-columns: 92px minmax(0, 1fr); grid-template-rows: auto auto; column-gap: 10px; padding: 7px 0; border-top: 1px solid var(--line); }
+.era { grid-row: 1 / span 2; align-self: start; margin-top: 2px; font: 600 9.5px/1.2 var(--sans); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ec); border: 1px solid var(--ec); border-radius: 3px; padding: 3px 5px; text-align: center; }
+.era-P { --ec: var(--era-P); } .era-C { --ec: var(--era-C); } .era-N { --ec: var(--era-N); } .era-R { --ec: var(--era-R); } .era-M { --ec: var(--era-M); }
+.pt { font: 600 14px/1.3 var(--sans); }
+.pt em { font: italic 400 12px var(--sans); color: var(--faint); }
+.startag { display: inline-block; margin-left: 8px; font: 600 9.5px/1 var(--sans); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink); background: var(--gold); border-radius: 3px; padding: 3px 5px; vertical-align: 2px; }
+.py { font-size: 12.5px; color: var(--faint); font-variant-numeric: tabular-nums; }
+.picks li.star .pt { color: var(--gold-2); }
+.appears { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
+.appears > span { font: 600 10px/1 var(--sans); letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-right: 4px; }
+.pchip { font-size: 11.5px; padding: 5px 9px; }
+#libempty { color: var(--muted); }
+
+footer { border-top: 1px solid var(--line); padding-block: 36px 48px; color: var(--faint); font-size: 14px; }
+footer .wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px 48px; }
+footer p { margin: 0 0 10px; max-width: 62ch; }
+footer strong { color: var(--muted); }
+
+@media (max-width: 860px) {
+  .hero-copy, .sechead, .chead, footer .wrap { grid-template-columns: minmax(0, 1fr); }
+  .cyears, .ctag { grid-column: 1; grid-row: auto; }
+  #dossier-body { grid-template-columns: minmax(0, 1fr); padding: 20px 18px; gap: 20px; }
+  .d-poster img { max-width: 240px; position: static; }
+  .chronlist li { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .toolbar { position: static; }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); gap: 22px 12px; }
+}
+@media (max-width: 560px) {
+  .fan { display: none; }
+  .controls { gap: 8px; padding: 8px 10px; }
+  #time { min-width: 0; font-size: 12px; }
+  #fs { display: none; }
+  .bigplay { font-size: 12px; padding: 10px 16px 10px 12px; }
+  .bigplay svg { width: 22px; height: 22px; }
+  .bigplay .long { display: none; }
+  .bigplay .short { display: inline; }
+  .stats b { font-size: 28px; }
+}
+.stage:fullscreen { display: flex; flex-direction: column; justify-content: center; border: 0; border-radius: 0; }
+.stage:fullscreen canvas { max-height: calc(100vh - 58px); width: auto; max-width: 100%; margin: 0 auto; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#watch">DCCU</a>
+    <nav aria-label="Sections"><a href="#watch">Unveiling</a><a href="#timelines">Timelines</a><a href="#library">Library</a></nav>
+    <span class="fan">Fan concept</span>
+  </div>
+</header>
+
+<main>
+  <section id="watch" class="hero wrap">
+    <div class="hero-copy">
+      <div>
+        <p class="eyebrow">A fan-made DC connected universe · 2028–2041</p>
+        <h1><span class="nw">Seventy-six</span> projects. <span class="gold">One canon.</span></h1>
+      </div>
+      <div>
+        <p class="lede">Live-action films and series, animated films and series, and video games, all telling one story across six chapters. Every project adapts the best comics from the Pre-Crisis, Post-Crisis, New 52 and Rebirth eras, and every poster here is generated art.</p>
+        <ul class="stats">
+          <li><b>6</b><span>Chapters</span></li>
+          <li><b>76</b><span>Projects</span></li>
+          <li><b>141</b><span>Characters</span></li>
+          <li><b>748</b><span>Comics</span></li>
+          <li><b>4:54</b><span>Runtime</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="stage" class="stage" tabindex="0" aria-label="Unveiling film player. Space plays or pauses, arrow keys skip five seconds.">
+      <canvas id="film" width="1280" height="720" role="img" aria-label="The DCCU unveiling film, with a chapter-by-chapter reveal of every project"></canvas>
+      <button id="bigplay" class="bigplay" type="button"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M13 10.5v11l9-5.5z" fill="#f2b632"/></svg><span class="long">Watch the unveiling · 4:54</span><span class="short">Watch · 4:54</span></button>
+      <div class="controls">
+        <button id="play" class="ctl" type="button" aria-label="Play" data-state="paused"><svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg></button>
+        <span id="time">0:00 / 4:54</span>
+        <div class="scrubwrap"><input id="scrub" type="range" min="0" max="294" step="0.1" value="9.6" aria-label="Seek"><div id="marks"></div></div>
+        <button id="mute" class="ctl" type="button" aria-label="Mute" aria-pressed="false"><svg class="i-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg><svg class="i-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9zm16.6 3l2.1-2.1-1.4-1.4-2.1 2.1-2.1-2.1-1.4 1.4 2.1 2.1-2.1 2.1 1.4 1.4 2.1-2.1 2.1 2.1 1.4-1.4z"/></svg></button>
+        <button id="fs" class="ctl" type="button" aria-label="Full screen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h6v2H6v4H4zm10 0h6v6h-2V6h-4zM4 14h2v4h4v2H4zm14 0h2v6h-6v-2h4z"/></svg></button>
+      </div>
+    </div>
+    <div id="chapjump" class="chapjump" aria-label="Jump to a chapter"></div>
+    <p id="audionote" class="note" hidden>The score couldn't load in this view, so the film plays silently. The MP4 version has the full soundtrack.</p>
+  </section>
+
+  <section id="timelines" class="sec">
+    <div class="wrap">
+      <div class="sechead">
+        <div><p class="eyebrow">Three ways to follow the saga</p><h2>The timelines</h2></div>
+        <p id="view-desc">Premiere order, chapter by chapter.</p>
+      </div>
+      <div class="toolbar">
+        <div class="tabs" role="tablist" aria-label="Timeline view">
+          <button class="tab" role="tab" type="button" data-view="release" aria-selected="true"><b>1</b>Release order</button>
+          <button class="tab" role="tab" type="button" data-view="chronology" aria-selected="false"><b>2</b>Story chronology</button>
+          <button class="tab" role="tab" type="button" data-view="medium" aria-selected="false"><b>3</b>By medium</button>
+        </div>
+        <div class="mfilter" aria-label="Filter by medium">
+          <button class="chip-m" type="button" data-m="LF" aria-pressed="true" style="--c:var(--lf)"><i></i>Films</button>
+          <button class="chip-m" type="button" data-m="LS" aria-pressed="true" style="--c:var(--ls)"><i></i>Series</button>
+          <button class="chip-m" type="button" data-m="AF" aria-pressed="true" style="--c:var(--af)"><i></i>Animated films</button>
+          <button class="chip-m" type="button" data-m="AS" aria-pressed="true" style="--c:var(--as)"><i></i>Animated series</button>
+          <button class="chip-m" type="button" data-m="VG" aria-pressed="true" style="--c:var(--vg)"><i></i>Games</button>
+          <button id="allmedia" type="button">Show all</button>
+          <span id="count" aria-live="polite">76 of 76 projects shown</span>
+        </div>
+      </div>
+      <div class="views"></div>
+    </div>
+  </section>
+
+  <section id="library" class="sec">
+    <div class="wrap">
+      <div class="sechead">
+        <div><p class="eyebrow">What the DCCU adapts</p><h2>The source library</h2></div>
+        <p>The best stories for all 141 characters, tagged by era. Gold rows are the place to start. Each card also lists the DCCU projects that character appears in.</p>
+      </div>
+      <div class="libtools">
+        <label class="search" for="libsearch"><input id="libsearch" type="search" placeholder="Search a character or comic, e.g. Zatanna or Year One" autocomplete="off"></label>
+        <div class="segs" aria-label="Character group">
+          <button class="seg" type="button" data-g="all" aria-pressed="true">All</button>
+          <button class="seg" type="button" data-g="Heroes" aria-pressed="false">Heroes</button>
+          <button class="seg" type="button" data-g="Villains &amp; Antiheroes" aria-pressed="false">Villains</button>
+          <button class="seg" type="button" data-g="Cosmic &amp; Mystic" aria-pressed="false">Cosmic &amp; mystic</button>
+        </div>
+        <div class="eras" aria-label="Comic era">
+          <button class="chip-e" type="button" data-e="P" aria-pressed="true" style="--ec:var(--era-P)"><i></i>Pre-Crisis</button>
+          <button class="chip-e" type="button" data-e="C" aria-pressed="true" style="--ec:var(--era-C)"><i></i>Post-Crisis</button>
+          <button class="chip-e" type="button" data-e="N" aria-pressed="true" style="--ec:var(--era-N)"><i></i>New 52</button>
+          <button class="chip-e" type="button" data-e="R" aria-pressed="true" style="--ec:var(--era-R)"><i></i>Rebirth</button>
+          <button class="chip-e" type="button" data-e="M" aria-pressed="true" style="--ec:var(--era-M)"><i></i>Infinite Frontier+</button>
+        </div>
+        <label class="toggle" for="essential"><input id="essential" type="checkbox">Start-here picks only</label>
+        <span id="libcount" aria-live="polite"></span>
+      </div>
+      <div id="libgrid" class="libgrid"></div>
+      <p id="libempty" hidden>No characters match. Clear the search or turn an era back on.</p>
+      <p class="note">Eras: Pre-Crisis 1938–1986 · Post-Crisis 1986–2011 · New 52 2011–2016 · Rebirth 2016–2021 · Infinite Frontier and later 2021–2026. Credits name the main writer and artist. "Elseworlds" marks stories outside regular continuity.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <p><strong>Unofficial fan concept.</strong> The DCCU is an imagined slate. It is not affiliated with, endorsed by or leaked from DC, DC Studios or Warner Bros. Discovery, and all characters belong to their owners.</p>
+      <p>Release dates are invented for this concept and begin in 2028.</p>
+    </div>
+    <div>
+      <p><strong>How it was made.</strong> Every poster and thumbnail is procedural canvas art built from each project's motif and palette, with generic silhouettes and no studio artwork or logos. The unveiling film renders live in your browser, and its score is synthesized from oscillators and filtered noise.</p>
+    </div>
+  </div>
+</footer>
+
+<dialog id="dossier" aria-labelledby="dossier-title">
+  <button id="dossier-close" type="button">Close</button>
+  <div id="dossier-body"></div>
+</dialog>
+<!--@SCRIPTS-->
