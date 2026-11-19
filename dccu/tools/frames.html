@@ -1,0 +1,10 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../src/fonts.css">
+<style>body{margin:0;background:#222;display:grid;grid-template-columns:repeat(2,640px);gap:4px;padding:4px}canvas{width:640px;height:360px}</style></head>
+<body><script src="../src/data.js"></script><script src="../src/art.js"></script><script src="../src/film.js"></script><script>
+(async()=>{for(const f of ['800 40px "Big Shoulders Display"','600 20px Archivo','italic 400 20px Archivo','600 20px Cinzel'])await document.fonts.load(f);
+const F=DCCUFilm.create({width:1280,height:720});const t0=performance.now();F.prewarm();const pre=performance.now()-t0;
+const q=new URLSearchParams(location.search);const times=(q.get('t')||'3,9,15,20,25,30.2,40,60').split(',').map(Number);
+const tr=performance.now();
+for(const t of times){const c=document.createElement('canvas');c.width=1280;c.height=720;document.body.appendChild(c);F.render(c.getContext('2d'),t);}
+document.title='done pre='+Math.round(pre)+' render='+Math.round((performance.now()-tr)/times.length)+'ms/frame total='+F.total.toFixed(1);})();
+</script></body></html>

@@ -1,0 +1,7 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../src/fonts.css"></head>
+<body style="margin:0;background:#000"><canvas id="c" width="1280" height="720"></canvas>
+<script src="../src/data.js"></script><script src="../src/art.js"></script><script src="../src/film.js"></script><script>
+(async()=>{for(const f of ['800 40px "Big Shoulders Display"','600 20px "Big Shoulders Display"','600 20px Archivo','400 20px Archivo','italic 400 20px Archivo','600 20px Cinzel'])await document.fonts.load(f);
+const c=document.getElementById('c'),ctx=c.getContext('2d');const F=DCCUFilm.create({width:1280,height:720});F.prewarm();
+window.TOTAL=F.total;window.frame=(t,q)=>{F.render(ctx,t);return c.toDataURL('image/jpeg',q||0.93).slice(23);};document.title='done';})();
+</script></body></html>
